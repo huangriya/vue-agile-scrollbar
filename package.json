@@ -22,6 +22,7 @@
   },
   "dependencies": {
     "vue": "^2.6.14",
+    "vue-agile-scrollbar": "^1.0.1",
     "vue-template-compiler": "^2.6.14"
   },
   "devDependencies": {
@@ -33,5 +34,5 @@
   "engines": {
     "node": ">=14",
     "npm": ">=6.10"
-  } 
+  }
 }
