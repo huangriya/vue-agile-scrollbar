@@ -51,5 +51,16 @@ export default {
   isAutoUpdate: {
     type: Boolean,
     default: true
+  },
+
+  // 拖动滚动条速度
+  dragSpeedX: {
+    type: Number,
+    default: 1
+  },
+
+  dragSpeedY: {
+    type: Number,
+    default: 1
   }
 }

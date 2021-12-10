@@ -23,10 +23,10 @@
 </template>
 
 <script>
-// import vueAgileScrollbar from '../src/vueAgileScrollbar.vue'
+import vueAgileScrollbar from '../src/vueAgileScrollbar.vue'
 
-import vueAgileScrollbar from 'vue-agile-scrollbar'
-import 'vue-agile-scrollbar/dist/style.css'
+// import vueAgileScrollbar from 'vue-agile-scrollbar'
+// import 'vue-agile-scrollbar/dist/style.css'
 
 export default {
   components: { vueAgileScrollbar }

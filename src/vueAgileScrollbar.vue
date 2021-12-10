@@ -170,11 +170,11 @@ export default {
       const clientY = this.scrollBarY.clientY
       if (clientX) {
         let dragX = e.clientX - clientX
-        this.$scroll.scrollLeft = this.scrollBarX.scrollLeft + dragX * this.scrollBarX.multiple
+        this.$scroll.scrollLeft = this.scrollBarX.scrollLeft + dragX * ((this.scrollBarX.multiple) * this.dragSpeedX)
       }
       if (clientY) {
         let dragY = e.clientY - clientY
-        this.$scroll.scrollTop = this.scrollBarY.scrollTop + dragY * this.scrollBarY.multiple
+        this.$scroll.scrollTop = this.scrollBarY.scrollTop + ((dragY * this.scrollBarY.multiple) * this.dragSpeedY)
       }
     },
 
