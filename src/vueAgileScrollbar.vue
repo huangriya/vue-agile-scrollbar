@@ -27,6 +27,8 @@ export default {
         clientY: null,
         height: 0,
         top: this.offsetTop,
+
+        // scrollBarY滚动相对于真实滚动的比例
         multiple: 1
       },
 
@@ -34,6 +36,8 @@ export default {
         clientX: null,
         width: 0,
         left: this.offsetLeft,
+
+        // scrollBarY滚动相对于真实滚动的比例，比如scrollBar滚动10px，真实滚动需要滚动多少?
         multiple: 1
       },
 
@@ -98,19 +102,36 @@ export default {
 
     onScroll (e) {
 
-      const scrollTop = this.$scroll.scrollTop
-      const scrollLeft = this.$scroll.scrollLeft
+      // 通过requestAnimationFrame函数做节流处理
 
-      this.scrollBarY.top = this.offsetTop + scrollTop / this.scrollBarY.multiple
-      this.scrollBarX.left = this.offsetLeft + scrollLeft / this.scrollBarX.multiple
+      if (!this.ticking) {
 
-      this.$emit('scroll', {
-        top: scrollTop,
-        left: scrollLeft
-      }, e)
+        window.requestAnimationFrame(() => {
+          const scrollTop = this.$scroll.scrollTop
+          const scrollLeft = this.$scroll.scrollLeft
 
-      if (this._events['scroll-hit']) {
-        this.onScrollHit(scrollTop, scrollLeft)
+          const top = this.offsetTop + Math.floor(scrollTop / this.scrollBarY.multiple)
+          if (top !== this.scrollBarY.top) {
+            this.scrollBarY.top = top
+          }
+
+          const left = this.offsetLeft + Math.floor(scrollLeft / this.scrollBarX.multiple)
+          if (left !== this.scrollBarX.left) {
+            this.scrollBarX.left = left
+          }
+
+          this.$emit('scroll', {
+            top: scrollTop,
+            left: scrollLeft
+          }, e)
+
+          if (this._events['scroll-hit']) {
+            this.onScrollHit(scrollTop, scrollLeft)
+          }
+          this.ticking = false
+        })
+
+        this.ticking = true
       }
     },
 
@@ -231,6 +252,7 @@ export default {
     }
     .agile-scroll-wrapper {
       float: left;
+      min-width: 100%;
     }
   }
   
@@ -239,7 +261,7 @@ export default {
     background-color: #ddd;
     border-radius: 6px;
     opacity: 0;
-    transition: opacity, background .5s;
+    transition: opacity, background-color .5s;
     cursor: pointer;
     z-index: 10;
     &.act {

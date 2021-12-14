@@ -34,6 +34,14 @@ var props = {
   isAutoUpdate: {
     type: Boolean,
     default: true
+  },
+  dragSpeedX: {
+    type: Number,
+    default: 1
+  },
+  dragSpeedY: {
+    type: Number,
+    default: 1
   }
 };
 var render = function() {
@@ -160,16 +168,28 @@ const __vue2_script = {
       this.initScrollBar();
     },
     onScroll(e) {
-      const scrollTop = this.$scroll.scrollTop;
-      const scrollLeft = this.$scroll.scrollLeft;
-      this.scrollBarY.top = this.offsetTop + scrollTop / this.scrollBarY.multiple;
-      this.scrollBarX.left = this.offsetLeft + scrollLeft / this.scrollBarX.multiple;
-      this.$emit("scroll", {
-        top: scrollTop,
-        left: scrollLeft
-      }, e);
-      if (this._events["scroll-hit"]) {
-        this.onScrollHit(scrollTop, scrollLeft);
+      if (!this.ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollTop = this.$scroll.scrollTop;
+          const scrollLeft = this.$scroll.scrollLeft;
+          const top = this.offsetTop + Math.floor(scrollTop / this.scrollBarY.multiple);
+          if (top !== this.scrollBarY.top) {
+            this.scrollBarY.top = top;
+          }
+          const left = this.offsetLeft + Math.floor(scrollLeft / this.scrollBarX.multiple);
+          if (left !== this.scrollBarX.left) {
+            this.scrollBarX.left = left;
+          }
+          this.$emit("scroll", {
+            top: scrollTop,
+            left: scrollLeft
+          }, e);
+          if (this._events["scroll-hit"]) {
+            this.onScrollHit(scrollTop, scrollLeft);
+          }
+          this.ticking = false;
+        });
+        this.ticking = true;
       }
     },
     onScrollHit(scrollTop, scrollLeft) {
@@ -217,11 +237,11 @@ const __vue2_script = {
       const clientY = this.scrollBarY.clientY;
       if (clientX) {
         let dragX = e.clientX - clientX;
-        this.$scroll.scrollLeft = this.scrollBarX.scrollLeft + dragX * this.scrollBarX.multiple;
+        this.$scroll.scrollLeft = this.scrollBarX.scrollLeft + dragX * (this.scrollBarX.multiple * this.dragSpeedX);
       }
       if (clientY) {
         let dragY = e.clientY - clientY;
-        this.$scroll.scrollTop = this.scrollBarY.scrollTop + dragY * this.scrollBarY.multiple;
+        this.$scroll.scrollTop = this.scrollBarY.scrollTop + dragY * this.scrollBarY.multiple * this.dragSpeedY;
       }
     },
     scrollBarUp() {
