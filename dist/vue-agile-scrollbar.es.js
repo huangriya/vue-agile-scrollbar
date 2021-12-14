@@ -182,7 +182,11 @@ const __vue2_script = {
           }
           this.$emit("scroll", {
             top: scrollTop,
-            left: scrollLeft
+            left: scrollLeft,
+            scrollWidth: this.scrollWidth,
+            scrollHeight: this.scrollHeight,
+            scrollContentWidth: this.scrollContentWidth,
+            scrollContentHeight: this.scrollContentHeight
           }, e);
           if (this._events["scroll-hit"]) {
             this.onScrollHit(scrollTop, scrollLeft);
