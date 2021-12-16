@@ -48,11 +48,11 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "vue-agile-scrollbar", class: { "not-user-select": _vm.scrollBarX.clientX || _vm.scrollBarY.clientY } }, [_c("div", { ref: "scroll", staticClass: "agile-scroll-content", on: { "scroll": _vm.onScroll } }, [_c("div", { ref: "scrollContent", staticClass: "agile-scroll-wrapper" }, [_vm._t("default")], 2)]), _c("div", { staticClass: "agile-scroll-bar-x", class: { act: _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: { left: _vm.scrollBarX.left + "px", width: _vm.scrollBarX.width + "px" }, on: { "mousedown": function($event) {
+  return _c("div", { staticClass: "vue-agile-scrollbar", class: { "not-user-select": _vm.scrollBarX.clientX || _vm.scrollBarY.clientY, "not-scroll-y": !_vm.scrollBarY.show } }, [_c("div", { ref: "scroll", staticClass: "agile-scroll-content", on: { "scroll": _vm.onScroll } }, [_c("div", { ref: "scrollContent", staticClass: "agile-scroll-wrapper" }, [_vm._t("default")], 2)]), _vm.scrollBarX.show ? _c("div", { staticClass: "agile-scroll-bar-x", class: { act: _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: { left: _vm.scrollBarX.left + "px", width: _vm.scrollBarX.width + "px" }, on: { "mousedown": function($event) {
     return _vm.scrollBarDown($event, "scrollBarX");
-  } } }), _c("div", { staticClass: "agile-scroll-bar-y", class: { act: _vm.scrollBarY.clientY || _vm.scrollBarX.clientX }, style: { top: _vm.scrollBarY.top + "px", height: _vm.scrollBarY.height + "px" }, on: { "mousedown": function($event) {
+  } } }) : _vm._e(), _vm.scrollBarY.show ? _c("div", { staticClass: "agile-scroll-bar-y", class: { act: _vm.scrollBarY.clientY || _vm.scrollBarX.clientX }, style: { top: _vm.scrollBarY.top + "px", height: _vm.scrollBarY.height + "px" }, on: { "mousedown": function($event) {
     return _vm.scrollBarDown($event, "scrollBarY");
-  } } })]);
+  } } }) : _vm._e()]);
 };
 var staticRenderFns = [];
 var vueAgileScrollbar_vue_vue_type_style_index_0_lang = "";
@@ -112,12 +112,14 @@ const __vue2_script = {
   data() {
     return {
       scrollBarY: {
+        show: true,
         clientY: null,
         height: 0,
         top: this.offsetTop,
         multiple: 1
       },
       scrollBarX: {
+        show: true,
         clientX: null,
         width: 0,
         left: this.offsetLeft,
@@ -128,6 +130,20 @@ const __vue2_script = {
       scrollContentWidth: 0,
       scrollContentHeight: 0
     };
+  },
+  watch: {
+    offsetLeft() {
+      this.setScrollBarLeft();
+    },
+    offsetRight() {
+      this.setScrollBarLeft();
+    },
+    offsetTop() {
+      this.setScrollBarTop();
+    },
+    offsetBottom() {
+      this.setScrollBarTop();
+    }
   },
   mounted() {
     this.$scroll = this.$refs.scroll;
@@ -153,33 +169,47 @@ const __vue2_script = {
     },
     initScrollBar() {
       if (this.scrollContentWidth > this.scrollWidth) {
-        const width = this.scrollWidth - (this.scrollContentWidth - this.scrollWidth);
+        const width = this.scrollWidth - (this.scrollContentWidth - this.scrollWidth) - this.offsetLeft - this.offsetRight;
+        this.scrollBarX.show = true;
         this.scrollBarX.width = width < this.minBarSize ? this.minBarSize : width;
         this.scrollBarX.multiple = (this.scrollContentWidth - this.scrollWidth) / (this.scrollWidth - this.scrollBarX.width - this.offsetLeft - this.offsetRight);
+      } else {
+        this.scrollBarX.show = false;
       }
       if (this.scrollContentHeight > this.scrollHeight) {
-        const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight);
+        const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight) - this.offsetTop - this.offsetBottom;
+        this.scrollBarY.show = true;
         this.scrollBarY.height = height < this.minBarSize ? this.minBarSize : height;
         this.scrollBarY.multiple = (this.scrollContentHeight - this.scrollHeight) / (this.scrollHeight - this.scrollBarY.height - this.offsetTop - this.offsetBottom);
+      } else {
+        this.scrollBarY.show = false;
       }
     },
     updated() {
       this.initContainer();
       this.initScrollBar();
     },
+    setScrollBarLeft() {
+      const scrollLeft = this.$scroll.scrollLeft;
+      const left = this.offsetLeft + Math.floor(scrollLeft / this.scrollBarX.multiple);
+      if (left !== this.scrollBarX.left) {
+        this.scrollBarX.left = left;
+      }
+      return scrollLeft;
+    },
+    setScrollBarTop() {
+      const scrollTop = this.$scroll.scrollTop;
+      const top = this.offsetTop + Math.floor(scrollTop / this.scrollBarY.multiple);
+      if (top !== this.scrollBarY.top) {
+        this.scrollBarY.top = top;
+      }
+      return scrollTop;
+    },
     onScroll(e) {
       if (!this.ticking) {
         window.requestAnimationFrame(() => {
-          const scrollTop = this.$scroll.scrollTop;
-          const scrollLeft = this.$scroll.scrollLeft;
-          const top = this.offsetTop + Math.floor(scrollTop / this.scrollBarY.multiple);
-          if (top !== this.scrollBarY.top) {
-            this.scrollBarY.top = top;
-          }
-          const left = this.offsetLeft + Math.floor(scrollLeft / this.scrollBarX.multiple);
-          if (left !== this.scrollBarX.left) {
-            this.scrollBarX.left = left;
-          }
+          const scrollTop = this.setScrollBarTop();
+          const scrollLeft = this.setScrollBarLeft();
           this.$emit("scroll", {
             top: scrollTop,
             left: scrollLeft,

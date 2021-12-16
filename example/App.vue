@@ -20,6 +20,16 @@
         </vueAgileScrollbar>
       </div>
     </section>
+
+    <section>
+      <h3>基本用法</h3>
+      <div style="height:200px;width:500px;border:solid #eee 1px">
+        <vueAgileScrollbar @scroll="scroll" :offsetLeft="100" :offsetRight="100" :offsetTop="10" :offsetBottom="10">
+          <div>冷风吹，小雪到</div>
+          <div style="width:600px"></div>
+        </vueAgileScrollbar>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -31,6 +41,14 @@ import vueAgileScrollbar from '../src/vueAgileScrollbar.vue'
 
 export default {
   components: { vueAgileScrollbar },
+  data () {
+    return {
+      show: true
+    }
+  },
+  mounted () {
+    
+  },
   methods: {
     scroll (v) {
       console.log(v)

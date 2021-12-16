@@ -1,15 +1,15 @@
 <template>
-  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}">
+  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY, 'not-scroll-y': !scrollBarY.show}">
     <div class="agile-scroll-content" ref="scroll" @scroll="onScroll">
       <div class="agile-scroll-wrapper" ref="scrollContent">
         <slot></slot>
       </div>
     </div>
-    <div class="agile-scroll-bar-x"
+    <div class="agile-scroll-bar-x" v-if="scrollBarX.show"
          :class="{act: scrollBarX.clientX || scrollBarY.clientY}"
          :style="{left: scrollBarX.left + 'px', width: scrollBarX.width + 'px'}"
          @mousedown="scrollBarDown($event, 'scrollBarX')"></div>
-    <div class="agile-scroll-bar-y" 
+    <div class="agile-scroll-bar-y" v-if="scrollBarY.show"
          :class="{act: scrollBarY.clientY || scrollBarX.clientX}"
          :style="{top: scrollBarY.top + 'px', height: scrollBarY.height + 'px'}"
          @mousedown="scrollBarDown($event, 'scrollBarY')"></div>
@@ -22,8 +22,8 @@ export default {
   props: props,
   data () {
     return {
-
       scrollBarY: {
+        show: true,
         clientY: null,
         height: 0,
         top: this.offsetTop,
@@ -33,6 +33,7 @@ export default {
       },
 
       scrollBarX: {
+        show: true,
         clientX: null,
         width: 0,
         left: this.offsetLeft,
@@ -47,6 +48,22 @@ export default {
       scrollContentHeight: 0
     }
   },
+
+  watch: {
+    offsetLeft () {
+      this.setScrollBarLeft()
+    },
+    offsetRight () {
+      this.setScrollBarLeft()
+    },
+    offsetTop () {
+      this.setScrollBarTop()
+    },
+    offsetBottom () {
+      this.setScrollBarTop()
+    }
+  },
+  
   mounted () {
     this.$scroll = this.$refs.scroll
     this.$scrollContent = this.$refs.scrollContent
@@ -82,21 +99,47 @@ export default {
     initScrollBar () {
       
       if (this.scrollContentWidth > this.scrollWidth) {
-        const width = this.scrollWidth - (this.scrollContentWidth - this.scrollWidth)
+        const width = this.scrollWidth - (this.scrollContentWidth - this.scrollWidth) - this.offsetLeft - this.offsetRight
+        this.scrollBarX.show = true
         this.scrollBarX.width = width < this.minBarSize ? this.minBarSize : width
         this.scrollBarX.multiple = (this.scrollContentWidth - this.scrollWidth) / (this.scrollWidth - this.scrollBarX.width - this.offsetLeft - this.offsetRight)
+      } else {
+        this.scrollBarX.show = false
       }
 
       if (this.scrollContentHeight > this.scrollHeight) {
-        const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight)
+        const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight) - this.offsetTop - this.offsetBottom
+        this.scrollBarY.show = true
         this.scrollBarY.height = height < this.minBarSize ? this.minBarSize : height
         this.scrollBarY.multiple = (this.scrollContentHeight - this.scrollHeight) / (this.scrollHeight - this.scrollBarY.height  - this.offsetTop - this.offsetBottom)
+      } else {
+        this.scrollBarY.show = false
       }
     },
 
     updated () {
       this.initContainer()
       this.initScrollBar()
+    },
+
+    // 设置x轴滚动条距离
+    setScrollBarLeft () {
+      const scrollLeft = this.$scroll.scrollLeft
+      const left = this.offsetLeft + Math.floor(scrollLeft / this.scrollBarX.multiple)
+      if (left !== this.scrollBarX.left) {
+        this.scrollBarX.left = left
+      }
+      return scrollLeft
+    },
+
+    // 设置Y轴滚动条距离
+    setScrollBarTop () {
+      const scrollTop = this.$scroll.scrollTop
+      const top = this.offsetTop + Math.floor(scrollTop / this.scrollBarY.multiple)
+      if (top !== this.scrollBarY.top) {
+        this.scrollBarY.top = top
+      }
+      return scrollTop
     },
 
 
@@ -108,18 +151,8 @@ export default {
 
         window.requestAnimationFrame(() => {
 
-          const scrollTop = this.$scroll.scrollTop
-          const scrollLeft = this.$scroll.scrollLeft
-
-          const top = this.offsetTop + Math.floor(scrollTop / this.scrollBarY.multiple)
-          if (top !== this.scrollBarY.top) {
-            this.scrollBarY.top = top
-          }
-
-          const left = this.offsetLeft + Math.floor(scrollLeft / this.scrollBarX.multiple)
-          if (left !== this.scrollBarX.left) {
-            this.scrollBarX.left = left
-          }
+          const scrollTop = this.setScrollBarTop()
+          const scrollLeft = this.setScrollBarLeft()
 
           this.$emit('scroll', {
             top: scrollTop,
@@ -239,6 +272,9 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
+  &.not-scroll-y {
+    height: auto;
+  }
   &.not-user-select {
     user-select: none;
   }
