@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}" :style="styles">
+  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}" :style="scrollbarStyles">
     <div class="agile-scroll-content" ref="scroll" @scroll="onScroll">
       <div class="agile-scroll-wrapper" ref="scrollContent">
         <slot></slot>
@@ -45,18 +45,9 @@ export default {
       scrollWidth: 0,
       scrollHeight: 0,
       scrollContentWidth: 0,
-      scrollContentHeight: 0
-    }
-  },
+      scrollContentHeight: 0,
 
-  computed: {
-    styles () {
-      if (this.scrollContentHeight && this.scrollContentHeight <= this.scrollHeight) {
-        console.log('dd')
-        return {
-          height: this.scrollContentHeight + 'px'
-        }
-      }
+      scrollbarStyles: {}
     }
   },
 
@@ -104,8 +95,6 @@ export default {
       this.scrollHeight = this.$scroll.offsetHeight
       this.scrollContentWidth = this.$scrollContent.offsetWidth
       this.scrollContentHeight = this.$scrollContent.offsetHeight
-
-      console.log(this.scrollHeight, this.scrollContentHeight)
     },
 
     // 初始化scrollBar
@@ -120,13 +109,17 @@ export default {
         this.scrollBarX.show = false
       }
 
-      if (this.scrollContentHeight > this.scrollHeight) {
+      if (this.scrollContentHeight > this.$refs.scroll.parentNode.parentNode.offsetHeight) {
+        this.scrollbarStyles = {}
         const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight) - this.offsetTop - this.offsetBottom
         this.scrollBarY.show = true
         this.scrollBarY.height = height < this.minBarSize ? this.minBarSize : height
         this.scrollBarY.multiple = (this.scrollContentHeight - this.scrollHeight) / (this.scrollHeight - this.scrollBarY.height  - this.offsetTop - this.offsetBottom)
       } else {
         this.scrollBarY.show = false
+        this.scrollbarStyles = {
+          height: this.scrollContentHeight + 'px'
+        }
       }
     },
 

@@ -48,7 +48,7 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { staticClass: "vue-agile-scrollbar", class: { "not-user-select": _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: _vm.styles }, [_c("div", { ref: "scroll", staticClass: "agile-scroll-content", on: { "scroll": _vm.onScroll } }, [_c("div", { ref: "scrollContent", staticClass: "agile-scroll-wrapper" }, [_vm._t("default")], 2)]), _vm.scrollBarX.show ? _c("div", { staticClass: "agile-scroll-bar-x", class: { act: _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: { left: _vm.scrollBarX.left + "px", width: _vm.scrollBarX.width + "px" }, on: { "mousedown": function($event) {
+  return _c("div", { staticClass: "vue-agile-scrollbar", class: { "not-user-select": _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: _vm.scrollbarStyles }, [_c("div", { ref: "scroll", staticClass: "agile-scroll-content", on: { "scroll": _vm.onScroll } }, [_c("div", { ref: "scrollContent", staticClass: "agile-scroll-wrapper" }, [_vm._t("default")], 2)]), _vm.scrollBarX.show ? _c("div", { staticClass: "agile-scroll-bar-x", class: { act: _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: { left: _vm.scrollBarX.left + "px", width: _vm.scrollBarX.width + "px" }, on: { "mousedown": function($event) {
     return _vm.scrollBarDown($event, "scrollBarX");
   } } }) : _vm._e(), _vm.scrollBarY.show ? _c("div", { staticClass: "agile-scroll-bar-y", class: { act: _vm.scrollBarY.clientY || _vm.scrollBarX.clientX }, style: { top: _vm.scrollBarY.top + "px", height: _vm.scrollBarY.height + "px" }, on: { "mousedown": function($event) {
     return _vm.scrollBarDown($event, "scrollBarY");
@@ -128,18 +128,9 @@ const __vue2_script = {
       scrollWidth: 0,
       scrollHeight: 0,
       scrollContentWidth: 0,
-      scrollContentHeight: 0
+      scrollContentHeight: 0,
+      scrollbarStyles: {}
     };
-  },
-  computed: {
-    styles() {
-      if (this.scrollContentHeight && this.scrollContentHeight <= this.scrollHeight) {
-        console.log("dd");
-        return {
-          height: this.scrollContentHeight + "px"
-        };
-      }
-    }
   },
   watch: {
     offsetLeft() {
@@ -176,7 +167,6 @@ const __vue2_script = {
       this.scrollHeight = this.$scroll.offsetHeight;
       this.scrollContentWidth = this.$scrollContent.offsetWidth;
       this.scrollContentHeight = this.$scrollContent.offsetHeight;
-      console.log(this.scrollHeight, this.scrollContentHeight);
     },
     initScrollBar() {
       if (this.scrollContentWidth > this.scrollWidth) {
@@ -187,13 +177,17 @@ const __vue2_script = {
       } else {
         this.scrollBarX.show = false;
       }
-      if (this.scrollContentHeight > this.scrollHeight) {
+      if (this.scrollContentHeight > this.$refs.scroll.parentNode.parentNode.offsetHeight) {
+        this.scrollbarStyles = {};
         const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight) - this.offsetTop - this.offsetBottom;
         this.scrollBarY.show = true;
         this.scrollBarY.height = height < this.minBarSize ? this.minBarSize : height;
         this.scrollBarY.multiple = (this.scrollContentHeight - this.scrollHeight) / (this.scrollHeight - this.scrollBarY.height - this.offsetTop - this.offsetBottom);
       } else {
         this.scrollBarY.show = false;
+        this.scrollbarStyles = {
+          height: this.scrollContentHeight + "px"
+        };
       }
     },
     updated() {
