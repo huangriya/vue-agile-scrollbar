@@ -70,8 +70,7 @@ export default {
     this.$scroll = this.$refs.scroll
     this.$scrollContent = this.$refs.scrollContent
 
-    this.initContainer()
-    this.initScrollBar()
+    this.updated()
 
     // 监听容器内变化
     if (this.isAutoUpdate) {
@@ -126,6 +125,16 @@ export default {
     updated () {
       this.initContainer()
       this.initScrollBar()
+      this.$emit('updated', {
+        scrollBarY: this.scrollBarY.show,
+        scrollBarX: this.scrollBarX.show,
+        top: this.$scroll.scrollTop,
+        left: this.$scroll.scrollLeft,
+        scrollWidth: this.scrollWidth,
+        scrollHeight: this.scrollHeight,
+        scrollContentWidth: this.scrollContentWidth,
+        scrollContentHeight: this.scrollContentHeight
+      })
     },
 
     // 设置x轴滚动条距离
@@ -192,12 +201,17 @@ export default {
       const scrollHit = () => {
         this.$emit('scroll-hit', type, {
           top: scrollTop,
-          left: scrollLeft
+          left: scrollLeft,
+          scrollWidth: this.scrollWidth,
+          scrollHeight: this.scrollHeight,
+          scrollContentWidth: this.scrollContentWidth,
+          scrollContentHeight: this.scrollContentHeight
         })
       }
       
       if (scrollY !== 0 && this.scrollBarY.height) {
         scrollY < 0 ? type = 'top' : type = 'bottom'
+
         if (this.scrollContentHeight - this.scrollHeight - scrollTop === 0) {
           scrollHit()
         } 
@@ -210,11 +224,12 @@ export default {
         scrollX < 0 ? type = 'left' : type = 'right'
         if (scrollLeft === 0 && type === 'left') {
           scrollHit()
-        }
-
-        if (this.scrollContentWidth - this.scrollWidth - scrollLeft === 0) {
+        } else if (this.scrollContentWidth - this.scrollWidth - scrollLeft === 0) {
           scrollHit()
-        } 
+        } else {
+          type = 'xMiddle'
+          scrollHit()
+        }
       }
     },
 

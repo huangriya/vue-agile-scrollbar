@@ -149,8 +149,7 @@ const __vue2_script = {
   mounted() {
     this.$scroll = this.$refs.scroll;
     this.$scrollContent = this.$refs.scrollContent;
-    this.initContainer();
-    this.initScrollBar();
+    this.updated();
     if (this.isAutoUpdate) {
       this.observer = new MutationObserver(this.updated);
       this.observer.observe(this.$refs.scrollContent, {
@@ -193,6 +192,16 @@ const __vue2_script = {
     updated() {
       this.initContainer();
       this.initScrollBar();
+      this.$emit("updated", {
+        scrollBarY: this.scrollBarY.show,
+        scrollBarX: this.scrollBarX.show,
+        top: this.$scroll.scrollTop,
+        left: this.$scroll.scrollLeft,
+        scrollWidth: this.scrollWidth,
+        scrollHeight: this.scrollHeight,
+        scrollContentWidth: this.scrollContentWidth,
+        scrollContentHeight: this.scrollContentHeight
+      });
     },
     setScrollBarLeft() {
       const scrollLeft = this.$scroll.scrollLeft;
@@ -238,7 +247,11 @@ const __vue2_script = {
       const scrollHit = () => {
         this.$emit("scroll-hit", type, {
           top: scrollTop,
-          left: scrollLeft
+          left: scrollLeft,
+          scrollWidth: this.scrollWidth,
+          scrollHeight: this.scrollHeight,
+          scrollContentWidth: this.scrollContentWidth,
+          scrollContentHeight: this.scrollContentHeight
         });
       };
       if (scrollY !== 0 && this.scrollBarY.height) {
@@ -254,8 +267,10 @@ const __vue2_script = {
         scrollX < 0 ? type = "left" : type = "right";
         if (scrollLeft === 0 && type === "left") {
           scrollHit();
-        }
-        if (this.scrollContentWidth - this.scrollWidth - scrollLeft === 0) {
+        } else if (this.scrollContentWidth - this.scrollWidth - scrollLeft === 0) {
+          scrollHit();
+        } else {
+          type = "xMiddle";
           scrollHit();
         }
       }
