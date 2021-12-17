@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY, 'not-scroll-y': !scrollBarY.show}">
+  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}" :style="styles">
     <div class="agile-scroll-content" ref="scroll" @scroll="onScroll">
       <div class="agile-scroll-wrapper" ref="scrollContent">
         <slot></slot>
@@ -49,6 +49,17 @@ export default {
     }
   },
 
+  computed: {
+    styles () {
+      if (this.scrollContentHeight && this.scrollContentHeight <= this.scrollHeight) {
+        console.log('dd')
+        return {
+          height: this.scrollContentHeight + 'px'
+        }
+      }
+    }
+  },
+
   watch: {
     offsetLeft () {
       this.setScrollBarLeft()
@@ -93,6 +104,8 @@ export default {
       this.scrollHeight = this.$scroll.offsetHeight
       this.scrollContentWidth = this.$scrollContent.offsetWidth
       this.scrollContentHeight = this.$scrollContent.offsetHeight
+
+      console.log(this.scrollHeight, this.scrollContentHeight)
     },
 
     // 初始化scrollBar
@@ -272,9 +285,6 @@ export default {
   height: 100%;
   position: relative;
   overflow: hidden;
-  &.not-scroll-y {
-    height: auto;
-  }
   &.not-user-select {
     user-select: none;
   }

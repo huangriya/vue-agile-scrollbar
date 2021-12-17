@@ -27,6 +27,7 @@
         <vueAgileScrollbar @scroll="scroll" :offsetLeft="100" :offsetRight="100" :offsetTop="10" :offsetBottom="10">
           <div>冷风吹，小雪到</div>
           <div style="width:600px"></div>
+          <div v-if="show" style="height: 300px"></div>
         </vueAgileScrollbar>
       </div>
     </section>
@@ -43,11 +44,13 @@ export default {
   components: { vueAgileScrollbar },
   data () {
     return {
-      show: true
+      show: false
     }
   },
   mounted () {
-    
+    setTimeout(() => {
+      this.show = true
+    }, 3000)
   },
   methods: {
     scroll (v) {
