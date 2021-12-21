@@ -41,13 +41,7 @@ export default {
     default: 10
   },
 
-  //滚动条 触底 触顶 触左 触右时的偏移量
-  offsetHit: {
-    type: Number,
-    default: 10
-  },
-
-  // dem内容变更，是否自动更新
+  // dom内容变更，是否自动更新
   isAutoUpdate: {
     type: Boolean,
     default: true

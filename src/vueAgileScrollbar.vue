@@ -1,5 +1,5 @@
 <template>
-  <div class="vue-agile-scrollbar" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}" :style="scrollbarStyles">
+  <div class="vue-agile-scrollbar" ref="scrollBox" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}">
     <div class="agile-scroll-content" ref="scroll" @scroll="onScroll">
       <div class="agile-scroll-wrapper" ref="scrollContent">
         <slot></slot>
@@ -7,7 +7,7 @@
     </div>
     <div class="agile-scroll-bar-x" v-if="scrollBarX.show"
          :class="{act: scrollBarX.clientX || scrollBarY.clientY}"
-         :style="{left: scrollBarX.left + 'px', width: scrollBarX.width + 'px'}"
+         :style="{left: scrollBarX.left + 'px', width: scrollBarX.width + 'px', bottom: scrollBarX.bottom}"
          @mousedown="scrollBarDown($event, 'scrollBarX')"></div>
     <div class="agile-scroll-bar-y" v-if="scrollBarY.show"
          :class="{act: scrollBarY.clientY || scrollBarX.clientX}"
@@ -19,6 +19,7 @@
 <script>
 import props from './props'
 export default {
+  name: 'vueAgileScrollBar',
   props: props,
   data () {
     return {
@@ -36,6 +37,8 @@ export default {
         show: true,
         clientX: null,
         width: 0,
+
+        bottom: 0,
         left: this.offsetLeft,
 
         // scrollBarY滚动相对于真实滚动的比例，比如scrollBar滚动10px，真实滚动需要滚动多少?
@@ -45,9 +48,7 @@ export default {
       scrollWidth: 0,
       scrollHeight: 0,
       scrollContentWidth: 0,
-      scrollContentHeight: 0,
-
-      scrollbarStyles: {}
+      scrollContentHeight: 0
     }
   },
 
@@ -67,6 +68,7 @@ export default {
   },
   
   mounted () {
+    this.$scrollBox = this.$refs.scrollBox
     this.$scroll = this.$refs.scroll
     this.$scrollContent = this.$refs.scrollContent
 
@@ -90,8 +92,8 @@ export default {
     
     // 初始化容器信息
     initContainer () {
-      this.scrollWidth = this.$scroll.offsetWidth
-      this.scrollHeight = this.$scroll.offsetHeight
+      this.scrollWidth = this.$scrollBox.offsetWidth
+      this.scrollHeight = this.$scrollBox.offsetHeight
       this.scrollContentWidth = this.$scrollContent.offsetWidth
       this.scrollContentHeight = this.$scrollContent.offsetHeight
     },
@@ -108,17 +110,15 @@ export default {
         this.scrollBarX.show = false
       }
 
-      if (this.scrollContentHeight > this.$refs.scroll.parentNode.parentNode.offsetHeight) {
-        this.scrollbarStyles = {}
+      if (this.scrollContentHeight > this.scrollHeight) {
         const height = this.scrollHeight - (this.scrollContentHeight - this.scrollHeight) - this.offsetTop - this.offsetBottom
         this.scrollBarY.show = true
         this.scrollBarY.height = height < this.minBarSize ? this.minBarSize : height
         this.scrollBarY.multiple = (this.scrollContentHeight - this.scrollHeight) / (this.scrollHeight - this.scrollBarY.height  - this.offsetTop - this.offsetBottom)
+        this.scrollBarX.bottom = 0
       } else {
         this.scrollBarY.show = false
-        this.scrollbarStyles = {
-          height: this.scrollContentHeight + 'px'
-        }
+        this.scrollBarX.bottom = this.scrollHeight - this.scrollContentHeight + 'px'
       }
     },
 
