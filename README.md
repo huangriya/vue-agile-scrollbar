@@ -8,18 +8,20 @@
 
 通过npm 或者 yarn安装
 
-`yarn add vue-agile-scrollbar`
+``` 
+yarn add vue-agile-scrollbar
 
-`npm i vue-agile-scrollbar`
-
+npm i vue-agile-scrollbar
+```
 
 引入
 
-`import 'vue-agile-scrollbar/dist/style.css'`
-`import vueAgileScrollbar from 'vue-agile-scrollbar'`
+``` js
+import 'vue-agile-scrollbar/dist/style.css'
+import vueAgileScrollbar from 'vue-agile-scrollbar'
+```
 
 ``` vue
-
 <template>
   <div style="height:200px;width:500px;border:solid #eee 1px">
     <vueAgileScrollbar>
@@ -41,14 +43,13 @@ export default {
   }
 }
 </script>
-
 ```
 
 # Api
 
 ### scroll props
 name|类型|默认值|说明
---|:--:|--:|--:
+--|:--:|--:|:--
 minBarSize| Number | 50 | 滚动条最小尺寸，<br>Y轴滚动条的高度或X轴滚动条的宽度不会小于这个值
 scrollTop| Number | 0 | 指定滚动条滚到距离顶部某个位置
 scrollLeft| Number | 0 | 指定滚动条滚到距离左边某个位置
@@ -64,12 +65,12 @@ dragSpeedY | Number | 1 | 拖拽Y滚动条滚动阀值，<br>值越大滚动越�
 
 ### event
 name|回调参数|说明
---|:--:|--:
+--|:--:|:--
 scroll | function(scrollValue: Object, $event) | 滚动会触发该事件
 scroll-hit | function(type: String, scrollValue: Object) | 滚动条触底、触顶、触左、触右后出发该事件
 
 
 ### 方法
 name|说明
---|--:
+--|:--
 updated() | - | element改变后，<br>可以通过该方法手动更新滚动容器状态
