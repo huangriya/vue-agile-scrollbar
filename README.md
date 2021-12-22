@@ -68,6 +68,7 @@ name|回调参数|说明
 --|:--:|:--
 scroll | function(scrollValue: Object, $event) | 滚动会触发该事件
 scroll-hit | function(type: String, scrollValue: Object) | 滚动条触底、触顶、触左、触右后出发该事件
+updated | function(scrollValue: Object) | 容器更新后会触发该事件
 
 
 ### 方法
