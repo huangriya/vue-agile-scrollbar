@@ -159,34 +159,20 @@ export default {
 
 
     onScroll (e) {
+      const scrollTop = this.setScrollBarTop()
+      const scrollLeft = this.setScrollBarLeft()
 
-      // 通过requestAnimationFrame函数做节流处理
+      this.$emit('scroll', {
+        top: scrollTop,
+        left: scrollLeft,
+        scrollWidth: this.scrollWidth,
+        scrollHeight: this.scrollHeight,
+        scrollContentWidth: this.scrollContentWidth,
+        scrollContentHeight: this.scrollContentHeight
+      }, e)
 
-      if (!this.ticking) {
-
-        window.requestAnimationFrame(() => {
-
-          const scrollTop = this.setScrollBarTop()
-          const scrollLeft = this.setScrollBarLeft()
-
-          this.$emit('scroll', {
-            top: scrollTop,
-            left: scrollLeft,
-            scrollWidth: this.scrollWidth,
-            scrollHeight: this.scrollHeight,
-            scrollContentWidth: this.scrollContentWidth,
-            scrollContentHeight: this.scrollContentHeight
-          }, e)
-
-          if (this._events['scroll-hit']) {
-            this.onScrollHit(scrollTop, scrollLeft)
-          }
-          
-          this.ticking = false
-
-        })
-
-        this.ticking = true
+      if (this._events['scroll-hit']) {
+        this.onScrollHit(scrollTop, scrollLeft)
       }
     },
 

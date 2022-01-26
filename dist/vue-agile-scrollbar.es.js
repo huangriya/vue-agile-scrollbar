@@ -216,24 +216,18 @@ const __vue2_script = {
       return scrollTop;
     },
     onScroll(e) {
-      if (!this.ticking) {
-        window.requestAnimationFrame(() => {
-          const scrollTop = this.setScrollBarTop();
-          const scrollLeft = this.setScrollBarLeft();
-          this.$emit("scroll", {
-            top: scrollTop,
-            left: scrollLeft,
-            scrollWidth: this.scrollWidth,
-            scrollHeight: this.scrollHeight,
-            scrollContentWidth: this.scrollContentWidth,
-            scrollContentHeight: this.scrollContentHeight
-          }, e);
-          if (this._events["scroll-hit"]) {
-            this.onScrollHit(scrollTop, scrollLeft);
-          }
-          this.ticking = false;
-        });
-        this.ticking = true;
+      const scrollTop = this.setScrollBarTop();
+      const scrollLeft = this.setScrollBarLeft();
+      this.$emit("scroll", {
+        top: scrollTop,
+        left: scrollLeft,
+        scrollWidth: this.scrollWidth,
+        scrollHeight: this.scrollHeight,
+        scrollContentWidth: this.scrollContentWidth,
+        scrollContentHeight: this.scrollContentHeight
+      }, e);
+      if (this._events["scroll-hit"]) {
+        this.onScrollHit(scrollTop, scrollLeft);
       }
     },
     onScrollHit(scrollTop, scrollLeft) {
