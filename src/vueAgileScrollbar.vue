@@ -1,5 +1,9 @@
 <template>
-  <div class="vue-agile-scrollbar" ref="scrollBox" :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY}">
+  <div class="vue-agile-scrollbar" 
+      ref="scrollBox" 
+      :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY, 
+              'scrollbar-hover': displayType === 'hover', 
+              'scrollbar-hide': displayType === 'hide'}">
     <div class="agile-scroll-content" ref="scroll" @scroll="onScroll">
       <div class="agile-scroll-wrapper" ref="scrollContent">
         <slot></slot>
@@ -282,11 +286,22 @@ export default {
   &.not-user-select {
     user-select: none;
   }
-  &:hover {
+  &.scrollbar-hide {
     .agile-scroll-bar-x, .agile-scroll-bar-y {
-      opacity: 1;
+      display: none;
     }
   }
+  &.scrollbar-hover {
+    .agile-scroll-bar-x, .agile-scroll-bar-y {
+      opacity: 0;
+    }
+    &:hover {
+      .agile-scroll-bar-x, .agile-scroll-bar-y {
+        opacity: 1;
+      }
+    }
+  }
+  
   .agile-scroll-content {
     position: relative;
     overflow: auto;
@@ -307,7 +322,6 @@ export default {
     position: absolute;
     background-color: #ddd;
     border-radius: 6px;
-    opacity: 0;
     transition: opacity, background-color .5s;
     cursor: pointer;
     z-index: 10;

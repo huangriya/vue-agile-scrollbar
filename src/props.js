@@ -20,6 +20,12 @@ export default {
     default: 0
   },
 
+  // 滚动条显示类型 hover show hide
+  displayType: {
+    type: String,
+    default: 'hover'
+  },
+
   // 滚动条偏移位置
   offsetLeft: {
     type: Number,

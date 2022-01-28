@@ -11,6 +11,10 @@ var props = {
     type: [Number, Function],
     default: 0
   },
+  displayType: {
+    type: String,
+    default: "hover"
+  },
   offsetLeft: {
     type: Number,
     default: 0
@@ -44,7 +48,11 @@ var render = function() {
   var _vm = this;
   var _h = _vm.$createElement;
   var _c = _vm._self._c || _h;
-  return _c("div", { ref: "scrollBox", staticClass: "vue-agile-scrollbar", class: { "not-user-select": _vm.scrollBarX.clientX || _vm.scrollBarY.clientY } }, [_c("div", { ref: "scroll", staticClass: "agile-scroll-content", on: { "scroll": _vm.onScroll } }, [_c("div", { ref: "scrollContent", staticClass: "agile-scroll-wrapper" }, [_vm._t("default")], 2)]), _vm.scrollBarX.show ? _c("div", { staticClass: "agile-scroll-bar-x", class: { act: _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: { left: _vm.scrollBarX.left + "px", width: _vm.scrollBarX.width + "px", bottom: _vm.scrollBarX.bottom }, on: { "mousedown": function($event) {
+  return _c("div", { ref: "scrollBox", staticClass: "vue-agile-scrollbar", class: {
+    "not-user-select": _vm.scrollBarX.clientX || _vm.scrollBarY.clientY,
+    "scrollbar-hover": _vm.displayType === "hover",
+    "scrollbar-hide": _vm.displayType === "hide"
+  } }, [_c("div", { ref: "scroll", staticClass: "agile-scroll-content", on: { "scroll": _vm.onScroll } }, [_c("div", { ref: "scrollContent", staticClass: "agile-scroll-wrapper" }, [_vm._t("default")], 2)]), _vm.scrollBarX.show ? _c("div", { staticClass: "agile-scroll-bar-x", class: { act: _vm.scrollBarX.clientX || _vm.scrollBarY.clientY }, style: { left: _vm.scrollBarX.left + "px", width: _vm.scrollBarX.width + "px", bottom: _vm.scrollBarX.bottom }, on: { "mousedown": function($event) {
     return _vm.scrollBarDown($event, "scrollBarX");
   } } }) : _vm._e(), _vm.scrollBarY.show ? _c("div", { staticClass: "agile-scroll-bar-y", class: { act: _vm.scrollBarY.clientY || _vm.scrollBarX.clientX }, style: { top: _vm.scrollBarY.top + "px", height: _vm.scrollBarY.height + "px" }, on: { "mousedown": function($event) {
     return _vm.scrollBarDown($event, "scrollBarY");
