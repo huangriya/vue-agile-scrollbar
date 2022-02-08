@@ -72,6 +72,8 @@ updated | function(scrollValue: Object) | 容器更新后会触发该事件
 
 
 ### 方法
-name|说明
---|:--
+name|参数|说明
+--|:--|:--
 updated() | - | element改变后，<br>可以通过该方法手动更新滚动容器状态
+setScrollLeft(number) | - | 改变滚动条左边滚动距离
+setScrollTop(number) | - | 改变滚动条上边滚动距离
