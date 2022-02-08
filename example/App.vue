@@ -5,7 +5,7 @@
     <section>
       <h3>基本用法</h3>
       <div style="height:200px;width:500px;border:solid #eee 1px">
-        <vueAgileScrollbar @scroll="scroll" @scroll-hit="onScrollHit">
+        <vueAgileScrollbar @scroll="scroll" @scroll-hit="onScrollHit" :scrollTop="100">
           <div>冷风吹，小雪到</div>
           <p>
             早上步行上班，走在初冬时节的大街上，一阵冷风袭来，满树的黄叶飘落，顿觉寒意渐浓。刚到办公室，就收到一条短信，打开一看是一位朋友发来的：“北风阵阵天气寒，小雪节气到身边，心底珍藏是思念，拇指轻动祝福转，愿您：天寒地冻要保暖，开心快乐一天天！”翻开桌上的日历才知道，今年冬天的第二个节气“小雪”就要到了。

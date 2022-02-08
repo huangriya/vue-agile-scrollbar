@@ -10,13 +10,13 @@ export default {
 
   // 初始化滚动位置
   scrollTop: {
-    type: [Number, Function],
+    type: Number,
     default: 0
   },
 
   // 初始化滚动位置
   scrollLeft: {
-    type: [Number, Function],
+    type: Number,
     default: 0
   },
 

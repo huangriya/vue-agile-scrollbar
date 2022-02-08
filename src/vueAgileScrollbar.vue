@@ -75,6 +75,10 @@ export default {
     this.$scrollBox = this.$refs.scrollBox
     this.$scroll = this.$refs.scroll
     this.$scrollContent = this.$refs.scrollContent
+    
+    // 初始化滚动条位置
+    this.setScrollLeft()
+    this.setScrollTop()
 
     this.updated()
 
@@ -264,6 +268,20 @@ export default {
     // 移除拖拽事件
     removeDragEvent () {
       window.removeEventListener('mouseup', this.scrollBarUp)
+    },
+
+    // 设置滚动条左边距离
+    setScrollLeft (number) {
+      if (number || this.scrollLeft) {
+        this.$scroll.scrollLeft = number || this.scrollLeft
+      }
+    },
+
+    // 设置滚动条左边距离
+    setScrollTop (number) {
+      if (number || this.scrollTop) {
+        this.$scroll.scrollTop = number || this.scrollTop
+      }
     }
   },
 
