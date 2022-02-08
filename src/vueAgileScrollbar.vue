@@ -272,14 +272,14 @@ export default {
 
     // 设置滚动条左边距离
     setScrollLeft (number) {
-      if (number || this.scrollLeft) {
+      if (number >= 0 || this.scrollLeft >= 0) {
         this.$scroll.scrollLeft = number || this.scrollLeft
       }
     },
 
     // 设置滚动条左边距离
     setScrollTop (number) {
-      if (number || this.scrollTop) {
+      if (number >= 0 || this.scrollTop >= 0) {
         this.$scroll.scrollTop = number || this.scrollTop
       }
     }
