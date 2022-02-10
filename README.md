@@ -61,7 +61,7 @@ offsetBottom| Number | 10 | 滚动距离底部的偏移量
 isAutoUpdate| Boolean | true | element改变后，是否自动更新
 dragSpeedX | Number | 1 | 拖拽X滚动条滚动阀值，<br>值越大滚动越快，越小滚动越慢
 dragSpeedY | Number | 1 | 拖拽Y滚动条滚动阀值，<br>值越大滚动越快，越小滚动越慢
-
+displayType | String | hover | 滚动条显示类型<br> show: 一直显示 <br>hover:鼠标移入显示 <br>hide:一直不显示
 
 
 ### event
