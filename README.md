@@ -3,6 +3,7 @@
 基于vue的自定义滚动条组件，完全基于浏览器的滚动，简单而强大
 
 # Demo
+[查看demo](https://huangriya.github.io/vue-agile-scrollbar/dist/index.html)
 
 # Simple usage
 
