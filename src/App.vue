@@ -5,8 +5,8 @@
     <section>
       <h3>基本用法</h3>
       <div style="height:200px;width:500px;border:solid #eee 1px">
-        <vueAgileScrollbar @scroll="scroll" @scroll-hit="onScrollHit" :scrollTop="100">
-          <div>冷风吹，小雪到</div>
+        <vueAgileScrollbar @scroll="scroll">
+          <div style="width:600px">冷风吹，小雪到</div>
           <p>
             早上步行上班，走在初冬时节的大街上，一阵冷风袭来，满树的黄叶飘落，顿觉寒意渐浓。刚到办公室，就收到一条短信，打开一看是一位朋友发来的：“北风阵阵天气寒，小雪节气到身边，心底珍藏是思念，拇指轻动祝福转，愿您：天寒地冻要保暖，开心快乐一天天！”翻开桌上的日历才知道，今年冬天的第二个节气“小雪”就要到了。
           </p>
@@ -16,18 +16,6 @@
           <p>
             在老家农人们的心目中，小雪节气标志着冬天真正的到来。广袤的田野没有了忙碌的劳作，显得格外寂静，呈现一派初冬景象。农家自古都是地闲人亦闲，小雪节气正是“家里有粮，心头不慌”的农闲季节。村上的老人们聚在一起，找个背风暖和的土墙根或者麦秸垛，耷拉着头，眯缝着眼，慵懒地晒着太阳，散漫地说着闲话，南坑泥鳅北坑鱼，东集骡子西集驴，云天雾地，优哉优哉，豁牙咧嘴地扯着天南海北的话题。老家有一句乡谚“小雪雪满天，来岁是丰年”，其实在小雪节气很少下大雪，即使下也只是微薄一层的轻盈小雪，雪的厚度连浅浅绿绿的麦苗也遮盖不住。小雪时节的太阳还是暖暖的，风也不算刺骨，天地之间还不至于冷得滴水成冰哈气成霜，于是，大人和孩子的活动空间还是以室外为主，只要不大雪封门，乡村孩童们成群结队去田野里肆意疯跑，大人们则悠闲地到田间地头看看麦苗的长势，家庭主妇们走过油菜地，还忘不了薅一把清鲜水灵的油菜，反正墒好油菜长得密实，权当剔剔苗。
           </p>
-          <div style="height:100000px"></div>
-        </vueAgileScrollbar>
-      </div>
-    </section>
-
-    <section>
-      <h3>基本用法</h3>
-      <div style="height:200px;width:500px;border:solid #eee 1px">
-        <vueAgileScrollbar @scroll="scroll" :offsetLeft="100" :offsetRight="100" :offsetTop="10" :offsetBottom="10" @scroll-hit="onScrollHit" @updated="updated">
-          <div>冷风吹，小雪到</div>
-          <div style="width:600px"></div>
-          <div v-if="show" style="height: 300px"></div>
         </vueAgileScrollbar>
       </div>
     </section>
@@ -35,22 +23,19 @@
 </template>
 
 <script>
-import vueAgileScrollbar from '../src/vueAgileScrollbar.vue'
 
-// import vueAgileScrollbar from 'vue-agile-scrollbar'
-// import 'vue-agile-scrollbar/dist/style.css'
+import vueAgileScrollbar from 'vue-agile-scrollbar'
+import 'vue-agile-scrollbar/dist/style.css'
 
 export default {
   components: { vueAgileScrollbar },
   data () {
     return {
-      show: false
+      
     }
   },
   mounted () {
-    setTimeout(() => {
-      this.show = true
-    }, 3000)
+    
   },
   methods: {
     scroll (v) {
