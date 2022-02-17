@@ -1,6 +1,6 @@
 <template>
-  <div class="vue-agile-scrollbar" 
-      ref="scrollBox" 
+  <div class="vue-agile-scrollbar"
+      ref="scrollBox"
       :class="{'not-user-select': scrollBarX.clientX || scrollBarY.clientY, 
               'scrollbar-hover': displayType === 'hover', 
               'scrollbar-hide': displayType === 'hide'}">
@@ -10,11 +10,11 @@
       </div>
     </div>
     <div class="agile-scroll-bar-x" v-if="scrollBarX.show"
-         :class="{act: scrollBarX.clientX || scrollBarY.clientY}"
+         :class="{act: scrollBarX.clientX}"
          :style="{left: scrollBarX.left + 'px', width: scrollBarX.width + 'px', bottom: scrollBarX.bottom}"
          @mousedown="scrollBarDown($event, 'scrollBarX')"></div>
     <div class="agile-scroll-bar-y" v-if="scrollBarY.show"
-         :class="{act: scrollBarY.clientY || scrollBarX.clientX}"
+         :class="{act: scrollBarY.clientY}"
          :style="{top: scrollBarY.top + 'px', height: scrollBarY.height + 'px'}"
          @mousedown="scrollBarDown($event, 'scrollBarY')"></div>
   </div>
@@ -59,15 +59,17 @@ export default {
   watch: {
     offsetLeft () {
       this.setScrollBarLeft()
+      this.initScrollBar()
     },
     offsetRight () {
-      this.setScrollBarLeft()
+      this.initScrollBar()
     },
     offsetTop () {
       this.setScrollBarTop()
+      this.initScrollBar()
     },
     offsetBottom () {
-      this.setScrollBarTop()
+      this.initScrollBar()
     }
   },
   
@@ -267,7 +269,7 @@ export default {
 
     // 移除拖拽事件
     removeDragEvent () {
-      window.removeEventListener('mouseup', this.scrollBarUp)
+      window.removeEventListener('mouseup', this.addDragEvent)
     },
 
     // 设置滚动条左边距离
@@ -346,7 +348,7 @@ export default {
     &.act {
       opacity: 1;
     }
-    &:hover {
+    &:hover, &.act {
       background-color: #bbb;
     }
   }
@@ -355,7 +357,7 @@ export default {
     width: 100px;
     left: 0;
     height: 6px;
-    &:hover {
+    &:hover, &.act {
       height: 10px;
     }
   }
@@ -365,7 +367,7 @@ export default {
     top: 0;
     width: 6px;
     height: 100px;
-    &:hover {
+    &:hover, &.act {
       width: 10px;
     }
   }
