@@ -2,11 +2,21 @@
 
 <template>
   <div>
+    <h1>vue-agile-scrollbar</h1>
+    <p>
+      基于浏览器原生滚动实现，拥有浏览器的滚动体验于性能，又可自定义滚动条样式
+    </p>
     <section>
       <h3>基本用法</h3>
-      <div style="height:200px;width:500px;border:solid #eee 1px">
-        <vueAgileScrollbar @scroll="scroll">
-          <div style="width:600px">冷风吹，小雪到</div>
+      <p>
+        滚动条显示模式: 
+        <label><input name="displayType" :checked="displayType === 'hover'" type="radio" value="hover" @input="displayType = 'hover'"/>hover(hover时显示滚动条) </label> 
+        <label><input name="displayType" :checked="displayType === 'show'" type="radio" value="show" @input="displayType = 'show'"/>show (一直显示滚动条) </label> 
+        <label><input name="displayType" :checked="displayType === 'hide'" type="radio" value="hide" @input="displayType = 'hide'"/>hide (不显示滚动条) </label> 
+      </p>
+      <div style="height:300px;width:800px;border:solid #eee 1px;line-height:28px">
+        <vueAgileScrollbar @scroll="scroll" :displayType="displayType">
+          <div style="width:900px">冷风吹，小雪到</div>
           <p>
             早上步行上班，走在初冬时节的大街上，一阵冷风袭来，满树的黄叶飘落，顿觉寒意渐浓。刚到办公室，就收到一条短信，打开一看是一位朋友发来的：“北风阵阵天气寒，小雪节气到身边，心底珍藏是思念，拇指轻动祝福转，愿您：天寒地冻要保暖，开心快乐一天天！”翻开桌上的日历才知道，今年冬天的第二个节气“小雪”就要到了。
           </p>
@@ -19,19 +29,40 @@
         </vueAgileScrollbar>
       </div>
     </section>
+
+    <section>
+      <h3>高级用法</h3>
+      <p>设置滚动条偏移量</p>
+      <div style="height:300px;width:800px;line-height:28px">
+        <vueAgileScrollbar :offsetTop="55" :offsetLeft="100" :offsetRight="100" displayType="show">
+          <table cellpadding="0" cellspacing="0">
+            <tr class="head">
+              <td class="fixed left">固定列</td>
+              <td v-for="item in 20" :key="item">head {{item}}</td>
+              <td class="fixed right">固定列</td>
+            </tr>
+            <tr v-for="tr in 50" :key="tr">
+              <td class="fixed left">固定列</td>
+              <td v-for="item in 20" :key="item">1</td>
+              <td class="fixed right">固定列</td>
+            </tr>
+          </table>
+        </vueAgileScrollbar>
+      </div>
+    </section>
   </div>
 </template>
 
 <script>
 
-import vueAgileScrollbar from 'vue-agile-scrollbar'
 import 'vue-agile-scrollbar/dist/style.css'
+import vueAgileScrollbar from 'vue-agile-scrollbar'
 
 export default {
   components: { vueAgileScrollbar },
   data () {
     return {
-      
+      displayType: 'hover'
     }
   },
   mounted () {
@@ -53,7 +84,7 @@ export default {
 }
 
 </script>
-<style>
+<style lang="less">
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -61,5 +92,37 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+section {
+  margin-bottom: 100px;
+}
+table {
+  width: 100%;
+  table-layout: fixed;
+  text-align: center;
+  .head {
+    position: sticky;
+    top: 0;
+    background-color: #fff;
+    z-index: 1;
+  }
+  tr {
+    
+  }
+  td {
+    width: 100px;
+    height: 50px;
+    border-bottom: solid #ddd 1px;
+  }
+  .fixed {
+    position: sticky;
+    background-color: #fff;
+    &.left {
+      left: 0;
+    }
+    &.right {
+      right: 0;
+    }
+  }
 }
 </style>
