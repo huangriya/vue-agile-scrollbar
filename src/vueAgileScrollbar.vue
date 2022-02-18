@@ -342,7 +342,6 @@ export default {
     position: absolute;
     background-color: #ddd;
     border-radius: 6px;
-    transition: opacity, background-color .5s;
     cursor: pointer;
     z-index: 10;
     &.act {
@@ -357,6 +356,7 @@ export default {
     width: 100px;
     left: 0;
     height: 6px;
+    transition: height .3s, background-color .5s, opacity .3s;
     &:hover, &.act {
       height: 10px;
     }
@@ -367,6 +367,7 @@ export default {
     top: 0;
     width: 6px;
     height: 100px;
+    transition: width .3s, background-color .5s, opacity .3s;
     &:hover, &.act {
       width: 10px;
     }
