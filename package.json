@@ -1,6 +1,6 @@
 {
   "name": "vue-agile-scrollbar",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "Custom agile scroll bar",
   "author": {
     "name": "huangriya",
@@ -12,7 +12,7 @@
     "dist"
   ],
   "main": "./dist/vue-agile-scrollbar.umd.js",
-  "module": "./dist/vue-agile-scrollbar.es.js",
+  "module": "./dist/vue-agile-scrollbar.mjs",
   "style": "./dist/style.css",
   "license": "MIT",
   "scripts": {
@@ -24,11 +24,11 @@
 
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^1.10.2",
+    "@vitejs/plugin-vue": "~4.0.0",
     "less": "^4.1.2",
     "vite": "~4.0.1",
     "vue": "~3.2.45",
-    "vue-agile-scrollbar": "^1.0.2"
+    "vue-agile-scrollbar": "^2.0.1"
   },
   "engines": {
     "node": ">=14",

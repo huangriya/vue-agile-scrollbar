@@ -35,7 +35,9 @@
 </template>
 
 <script>
-import vueAgileScrollbar from '../src/vueAgileScrollbar.vue'
+import vueAgileScrollbar from '../dist/vue-agile-scrollbar.mjs'
+import '../dist/style.css'
+console.log(vueAgileScrollbar)
 
 export default {
   components: { vueAgileScrollbar },

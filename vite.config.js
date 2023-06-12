@@ -6,10 +6,21 @@ import { resolve } from "path"
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  resolve: {
+    dedupe: ['vue']
+  },
   build: {
     lib: {
       entry: resolve(__dirname, "src/vueAgileScrollbar.vue"),
-      name: "vue-agile-scrollbar"
-    }
+      name: "vue-agile-scrollbar",
+    },
+    rollupOptions: {
+      external: ['vue'],
+      output: {
+        globals: {
+          vue: 'Vue'
+        },
+      },
+    },
   }
 })

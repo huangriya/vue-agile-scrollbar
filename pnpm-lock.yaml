@@ -1,18 +1,18 @@
 lockfileVersion: 5.3
 
 specifiers:
-  '@vitejs/plugin-vue': ^1.10.2
+  '@vitejs/plugin-vue': ~4.0.0
   less: ^4.1.2
   vite: ~4.0.1
   vue: ~3.2.45
-  vue-agile-scrollbar: ^1.0.2
+  vue-agile-scrollbar: ^2.0.1
 
 devDependencies:
-  '@vitejs/plugin-vue': 1.10.2_vite@4.0.5
+  '@vitejs/plugin-vue': 4.0.0_vite@4.0.5+vue@3.2.47
   less: 4.1.3
   vite: 4.0.5_less@4.1.3
   vue: 3.2.47
-  vue-agile-scrollbar: 1.0.19
+  vue-agile-scrollbar: 2.0.1
 
 packages:
 
@@ -220,13 +220,15 @@ packages:
     dev: true
     optional: true
 
-  /@vitejs/plugin-vue/1.10.2_vite@4.0.5:
-    resolution: {integrity: sha512-/QJ0Z9qfhAFtKRY+r57ziY4BSbGUTGsPRMpB/Ron3QPwBZM4OZAZHdTa4a8PafCwU5DTatXG8TMDoP8z+oDqJw==}
-    engines: {node: '>=12.0.0'}
+  /@vitejs/plugin-vue/4.0.0_vite@4.0.5+vue@3.2.47:
+    resolution: {integrity: sha512-e0X4jErIxAB5oLtDqbHvHpJe/uWNkdpYV83AOG2xo2tEVSzCzewgJMtREZM30wXnM5ls90hxiOtAuVU6H5JgbA==}
+    engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
-      vite: ^2.5.10
+      vite: ^4.0.0
+      vue: ^3.2.25
     dependencies:
       vite: 4.0.5_less@4.1.3
+      vue: 3.2.47
     dev: true
 
   /@vue/compiler-core/3.2.47:
@@ -611,8 +613,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vue-agile-scrollbar/1.0.19:
-    resolution: {integrity: sha512-b+QEViV+Yy/0ArOgozds4LbKbyzLEURN0UrJcHlngrBVjq/kMGzq5iN6rkGdc3hS/m01vPtpJUgE0z7NaRGjcg==}
+  /vue-agile-scrollbar/2.0.1:
+    resolution: {integrity: sha512-plcvBCcO4l2J+3or19ogqD7Kx+cerb8+XyI7Ig9ZVvYwW/yj2zF2urR+vxpjYGBFBeqx+GB+jQWJlpshEW47Zw==}
     engines: {node: '>=14', npm: '>=6.10'}
     dev: true
 
