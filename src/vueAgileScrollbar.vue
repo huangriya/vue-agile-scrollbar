@@ -181,7 +181,7 @@ export default {
         scrollContentHeight: this.scrollContentHeight
       }, e)
 
-      if (this._events['scroll-hit']) {
+      if (this.$attrs['onScrollHit']) {
         this.onScrollHit(scrollTop, scrollLeft)
       }
     },
@@ -287,7 +287,7 @@ export default {
     }
   },
 
-  beforeDestroy () {
+  beforeUnmount () {
     if (this.isAutoUpdate && this.observer) {
       this.observer.disconnect()
     }
